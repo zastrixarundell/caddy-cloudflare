@@ -1,0 +1,16 @@
+version: '3'
+services:
+  server:
+    build: .
+    container_name: caddy
+    ports:
+      - "${HTTP_PORT}:80"
+      - "${HTTPS_PORT}:443"
+    volumes:
+      - /var/caddy/data:/data
+      - /var/caddy/config:/config
+      - /var/caddy/Caddyfile:/etc/caddy/Caddyfile
+    environment:
+      CLOUDFLARE_EMAIL: ${CLOUDFLARE_EMAIL}
+      CLOUDFLARE_API_TOKEN: ${CLOUDFLARE_API_TOKEN}
+      ACME_AGREE: 'true'
