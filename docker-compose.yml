@@ -10,6 +10,7 @@ services:
       - /var/caddy/data:/data
       - /var/caddy/config:/config
       - /var/caddy/Caddyfile:/etc/caddy/Caddyfile
+      - /var/caddy/www:/var/www:ro
     restart: always
     environment:
       CLOUDFLARE_EMAIL: ${CLOUDFLARE_EMAIL}
