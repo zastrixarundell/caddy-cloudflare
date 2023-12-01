@@ -6,7 +6,7 @@ services:
     hostname: cloudflared-tunnel
     command: tunnel run
     environment:
-      TUNNEL_TOKEN=${CLOUDFLARE_TUNNEL_TOKEN}
+      TUNNEL_TOKEN: ${CLOUDFLARE_TUNNEL_TOKEN}
 
   server:
     build: .
