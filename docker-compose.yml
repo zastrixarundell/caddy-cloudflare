@@ -24,4 +24,4 @@ services:
       CLOUDFLARE_EMAIL: ${CLOUDFLARE_EMAIL}
       CLOUDFLARE_API_TOKEN: ${CLOUDFLARE_API_TOKEN}
       ACME_AGREE: 'true'
-    hostname: caddy-server
+    hostname: server
