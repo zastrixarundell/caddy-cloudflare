@@ -8,6 +8,9 @@ services:
     environment:
       TUNNEL_TOKEN: ${CLOUDFLARE_TUNNEL_TOKEN}
 
+  ubuntu-test:
+    image: ubuntu:latest
+
   server:
     build: .
     container_name: caddy
