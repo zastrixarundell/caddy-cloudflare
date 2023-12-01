@@ -1,5 +1,13 @@
 version: '3'
 services:
+  cloudflared-tunnel:
+    image: cloudflare/cloudflared:latest
+    container_name: cloudflared-tunnel
+    hostname: cloudflared-tunnel
+    command: tunnel run
+    environment:
+      TUNNEL_TOKEN=${CLOUDFLARE_TUNNEL_TOKEN}
+
   server:
     build: .
     container_name: caddy
@@ -16,3 +24,4 @@ services:
       CLOUDFLARE_EMAIL: ${CLOUDFLARE_EMAIL}
       CLOUDFLARE_API_TOKEN: ${CLOUDFLARE_API_TOKEN}
       ACME_AGREE: 'true'
+    hostname: caddy-server
