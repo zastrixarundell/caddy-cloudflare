@@ -1,23 +1,7 @@
 version: '3'
 
-networks:
-  cloudflare:
-    external: true
-
 services:
-  cloudflared-tunnel:
-    image: cloudflare/cloudflared:latest
-    container_name: cloudflared-tunnel
-    hostname: cloudflared-tunnel
-    command: tunnel run
-    environment:
-      TUNNEL_TOKEN: ${CLOUDFLARE_TUNNEL_TOKEN}
-    networks:
-      cloudflare:
-    volumes:
-      - /var/caddy/cloudflared-config.yml:/etc/cloudflared/config.yml
-
-  caddy:
+  server:
     build: .
     container_name: caddy
     ports:
@@ -33,6 +17,4 @@ services:
       CLOUDFLARE_EMAIL: ${CLOUDFLARE_EMAIL}
       CLOUDFLARE_API_TOKEN: ${CLOUDFLARE_API_TOKEN}
       ACME_AGREE: 'true'
-    hostname: caddy
-    networks:
-      cloudflare:
+    hostname: server
