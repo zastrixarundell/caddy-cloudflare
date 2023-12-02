@@ -24,17 +24,17 @@ Now set your `CLOUDFLARE_TUNNEL_TOKEN` env variable. I'm using portainer so I ha
 
 ![portainer-env-variables](screenshots/portainer-env.png)
 
-Now we have to configure the Public Hostnames for our tunnel. But in `*` for `Subdomains`, `Domain` should be your, well, Domain. Don't worry about the warning, we'll take care of it later.
+Now we have to configure the Public Hostnames for our tunnel. Put in `*` for `Subdomains`, `Domain` should be your, well, Domain. Don't worry about the warning, we'll take care of that later.
 
 `Service.Type` should be `HTTPS` and `Service.URL` should be `caddy:443`. After that press `Additional application settings`:
 
 ![traffic-route-start](screenshots/traffic-route.png)
 
-After opening the new menu head into `Additional application settings` > `TLS` > `Origin Server Name` and set it to the combination of your subdomain and domain, in my case: `*.armor.quest`:
+After opening the new menu, head into `Additional application settings` > `TLS` > `Origin Server Name` and set it to the combination of your subdomain and domain, in my case: `*.armor.quest`:
 
 ![tls-settings](screenshots/tls-settings.png)
 
-Hit save and then you should see your tunnel being active:
+Hit save and then you should see your tunnel being active, if you've started the container, if not start it now:
 
 ![healthy-tunnel](screenshots/show-healthy-tunnel.png)
 
@@ -45,7 +45,6 @@ Great! Let's copy the ID of the tunnel, in my case: `bfd810cf-b92e-45b7-a7c6-6c0
 
 
 And with this the cloudflare is *communicating* with the caddy server!
-
 
 ... But it still doesn't work, WHY?!
 
@@ -112,3 +111,7 @@ We'll need to modify it to accept `*.armor.quest` and then reverse proxy on ever
    reverse_proxy @service3 192.168.0.143:8087
 }
 ```
+
+And with that you should be able to access your website without the ports actually being open:
+
+![nextcloud and the router ports](sreenshots/../screenshots/nextcloud+router.png)
