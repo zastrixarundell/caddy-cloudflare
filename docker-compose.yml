@@ -15,7 +15,7 @@ services:
     networks:
       cloudflare:
     volumes:
-      - /var/caddy/cloudflared-config.yml:/etc/cloudflared/config.yml
+      - /var/caddy/cloudflared:/etc/cloudflared
 
   caddy:
     build: .
