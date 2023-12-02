@@ -16,6 +16,7 @@ services:
 
   ubuntu-test:
     image: ubuntu:latest
+    command: tail -f /dev/null
     networks:
         cloudflare:
 
