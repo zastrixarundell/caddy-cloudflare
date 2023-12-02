@@ -2,7 +2,6 @@ version: '3'
 
 networks:
   cloudflare:
-    external: true
 
 services:
   cloudflared-tunnel:
@@ -16,12 +15,6 @@ services:
       cloudflare:
     volumes:
       - /var/caddy/cloudflared-config.yml:/etc/cloudflared/config.yml
-
-  ubuntu-test:
-    image: ubuntu:latest
-    command: tail -f /dev/null
-    networks:
-        cloudflare:
 
   caddy:
     build: .
