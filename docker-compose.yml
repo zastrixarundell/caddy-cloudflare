@@ -4,9 +4,6 @@ networks:
   cloudflare:
     external: true
 
-volumes:
-  cloudflared_cert:
-
 services:
   cloudflared-tunnel:
     image: cloudflare/cloudflared:latest
@@ -19,7 +16,7 @@ services:
       cloudflare:
     volumes:
       - /var/caddy/cloudflared-config.yml:/etc/cloudflared/config.yml
-      - cloudflared_cert:/home/nonroot/.cloudflared/cert.pem
+      - /var/caddy/cloudflared-cert.pem:/home/nonroot/.cloudflared/cert.pem
 
   caddy:
     build: .
