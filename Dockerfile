@@ -1,7 +1,7 @@
 FROM caddy:2.7.5-builder-alpine AS builder
 
 RUN xcaddy build \
-    -- with https://github.com/caddy-dns/cloudflare
+    --with https://github.com/caddy-dns/cloudflare
 
 FROM caddy:2.7.5-alpine
 
