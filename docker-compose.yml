@@ -2,6 +2,7 @@ version: '3'
 
 networks:
   cloudflare:
+    external: true
 
 services:
   cloudflared-tunnel:
