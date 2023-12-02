@@ -15,7 +15,7 @@ services:
     networks:
       cloudflare:
     volumes:
-      - /var/caddy/cloudflared:/etc/cloudflared
+      - /var/caddy/cloudflared-config.yml:/etc/cloudflared/config.yml
 
   ubuntu-test:
     image: ubuntu:latest
@@ -23,7 +23,7 @@ services:
     networks:
         cloudflare:
 
-  server:
+  caddy:
     build: .
     container_name: caddy
     ports:
@@ -39,6 +39,6 @@ services:
       CLOUDFLARE_EMAIL: ${CLOUDFLARE_EMAIL}
       CLOUDFLARE_API_TOKEN: ${CLOUDFLARE_API_TOKEN}
       ACME_AGREE: 'true'
-    hostname: server
+    hostname: caddy
     networks:
       cloudflare:
