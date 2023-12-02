@@ -9,7 +9,7 @@ services:
     image: cloudflare/cloudflared:latest
     container_name: cloudflared-tunnel
     hostname: cloudflared-tunnel
-    command: tunnel --config /etc/cloudflared/config.yml run
+    command: tunnel run
     environment:
       TUNNEL_TOKEN: ${CLOUDFLARE_TUNNEL_TOKEN}
     networks:
