@@ -4,19 +4,20 @@ networks:
   cloudflare:
     external: true
 
+volumes:
+  cloudflared:
+
 services:
   cloudflared-tunnel:
     image: cloudflare/cloudflared:latest
     container_name: cloudflared-tunnel
     hostname: cloudflared-tunnel
     command: tunnel --config /etc/cloudflared/config.yml run
-    environment:
-      TUNNEL_TOKEN: ${CLOUDFLARE_TUNNEL_TOKEN}
     networks:
       cloudflare:
     volumes:
       - /var/caddy/cloudflared-config.yml:/etc/cloudflared/config.yml
-      - /var/caddy/cloudflared-cert.d:/home/nonroot/.cloudflared/
+      - cloudflared:/home/nonroot/.cloudflared/
 
   caddy:
     build: .
