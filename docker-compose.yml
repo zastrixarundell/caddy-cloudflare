@@ -2,9 +2,6 @@ version: '3'
 
 networks:
   cloudflare:
-    ipam:
-      config:
-        - subnet: 172.20.0.0/24
 
 services:
   cloudflared-tunnel:
@@ -16,13 +13,11 @@ services:
       TUNNEL_TOKEN: ${CLOUDFLARE_TUNNEL_TOKEN}
     networks:
       cloudflare:
-        ipv4_address: 172.20.0.9
 
   ubuntu-test:
     image: ubuntu:latest
     networks:
         cloudflare:
-          ipv4_address: 172.20.0.10
 
   server:
     build: .
@@ -43,4 +38,3 @@ services:
     hostname: server
     networks:
       cloudflare:
-        ipv4_address: 172.20.0.11
