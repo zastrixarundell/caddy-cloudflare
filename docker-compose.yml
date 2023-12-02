@@ -16,7 +16,7 @@ services:
       cloudflare:
     volumes:
       - /var/caddy/cloudflared-config.yml:/etc/cloudflared/config.yml
-      - /var/caddy/cloudflared-cert.pem:/home/nonroot/.cloudflared/cert.pem
+      - /var/caddy/cloudflared-cert.d:/home/nonroot/.cloudflared/
 
   caddy:
     build: .
