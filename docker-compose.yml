@@ -6,7 +6,7 @@ networks:
 
 services:
   cloudflared-tunnel:
-    image: cloudflare/cloudflared:2023.6.1
+    image: cloudflare/cloudflared:1280-66d1f2750707-amd64
     container_name: cloudflared-tunnel
     hostname: cloudflared-tunnel
     command: tunnel --config /etc/cloudflared/config.yml run
