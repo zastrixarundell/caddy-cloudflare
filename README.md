@@ -10,7 +10,7 @@ Essentially you add this as a git stack under portainer and set some environment
 
 Cloudflare moved into using remote-managed tunnels so you can't create a config file for it, you have to use the dashboard. Enter the zero access dashboard and then Access > Tunnels.
 
-This guide is mostly focus on wildcard records.
+This guide is mostly focused on wildcard records, so that you only need to change the caddyfile in 99% most the cases.
 
 Let's start the tunnel creation process. Firstly, name your tunnel:
 
