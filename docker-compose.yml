@@ -1,4 +1,11 @@
 version: '3'
+
+networks:
+  cloudflare:
+    ipam:
+      config:
+        - subnet: 172.20.0.0/24
+
 services:
   cloudflared-tunnel:
     image: cloudflare/cloudflared:latest
@@ -7,9 +14,15 @@ services:
     command: tunnel run
     environment:
       TUNNEL_TOKEN: ${CLOUDFLARE_TUNNEL_TOKEN}
+    networks:
+      cloudflare:
+        ipv4_address: 172.20.0.9
 
   ubuntu-test:
     image: ubuntu:latest
+    networks:
+        cloudflare:
+          ipv4_address: 172.20.0.10
 
   server:
     build: .
@@ -28,3 +41,6 @@ services:
       CLOUDFLARE_API_TOKEN: ${CLOUDFLARE_API_TOKEN}
       ACME_AGREE: 'true'
     hostname: server
+    networks:
+      cloudflare:
+        ipv4_address: 172.20.0.11
