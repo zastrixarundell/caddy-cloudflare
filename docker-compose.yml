@@ -10,6 +10,7 @@ services:
     container_name: cloudflared-tunnel
     hostname: cloudflared-tunnel
     command: tunnel run
+    restart: always
     environment:
       TUNNEL_TOKEN: ${CLOUDFLARE_TUNNEL_TOKEN}
     networks:
