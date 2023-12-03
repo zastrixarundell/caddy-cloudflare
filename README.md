@@ -10,7 +10,7 @@ Essentially you add this as a git stack under portainer and set some environment
 
 Cloudflare moved into using remote-managed tunnels so you can't create a config file for it, you have to use the dashboard. Enter the zero access dashboard and then Access > Tunnels.
 
-This guide is mostly focused on wildcard records, so that you only need to change the caddyfile in 99% most the cases.
+This guide is mostly focused on wildcard records, so that you only need to change the caddyfile in 99% most the cases. (Although it might be a good idea to go per-server basis in case you want to put a file manager and not clutter your Caddyfile (more on that later)).
 
 Let's start the tunnel creation process. Firstly, name your tunnel:
 
@@ -115,3 +115,5 @@ We'll need to modify it to accept `*.armor.quest` and then reverse proxy on ever
 And with that you should be able to access your website without the ports actually being open:
 
 ![nextcloud and the router ports](sreenshots/../screenshots/nextcloud+router.png)
+
+Now, as you saw, the Caddyfile *is* cluttered and it might just be a better idea to opt-in to a per-service basis rather than a wildcalrd. 
