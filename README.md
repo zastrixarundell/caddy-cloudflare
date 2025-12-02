@@ -49,5 +49,3 @@ And with this the cloudflare is communicating with the caddy server!
 And with that you should be able to access your website without the ports actually being open:
 
 ![nextcloud and the router ports](sreenshots/../screenshots/nextcloud+router.png)
-
-Now, as you saw, the Caddyfile *is* cluttered and it might just be a better idea to opt-in to a per-service basis rather than a wildcalrd. 
