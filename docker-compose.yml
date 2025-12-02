@@ -17,7 +17,7 @@ services:
       cloudflare:
 
   caddy:
-    build: .
+    image: ghcr.io/zastrixarundell/caddy-cloudflare:latest
     container_name: caddy
     ports:
       - "${HTTP_PORT}:80"
