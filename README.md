@@ -44,73 +44,7 @@ Great! Let's copy the ID of the tunnel, in my case: `bfd810cf-b92e-45b7-a7c6-6c0
 ![dns-rule](screenshots/dns-rule.png)
 
 
-And with this the cloudflare is *communicating* with the caddy server!
-
-... But it still doesn't work, WHY?!
-
-![bad-gateway](screenshots/bad-gateway.png)
-
-And the corresponding `cloudflared` logs:
-
-```
-02T12:03:16Z ERR  error="Unable to reach the origin service. The service may be down or it may not be responding to traffic from cloudflared: remote error: tls: internal error" cfRay=82f36cf98a75b33f-PRG event=1 ingressRule=0 originService=https://caddy:443
-
-2023-12-02T12:03:16Z ERR Request failed error="Unable to reach the origin service. The service may be down or it may not be responding to traffic from cloudflared: remote error: tls: internal error" connIndex=1 dest=https://vencloud.armor.quest/metrics event=0 ip=198.41.192.77 type=http
-```
-
-Well, it's because caddy isn't accepting the request. It gets it, it just declines it. We have to change up our caddyfile a bit:
-
-If this is our Caddyfile:
-
-```
-(cloudflare) {
-    encode gzip
-    tls {
-        dns cloudflare {env.CLOUDFLARE_API_TOKEN}
-    }
-}
-
-nextcloud.armor.quest {
-    import cloudflare
-    reverse_proxy 192.168.0.143:9351
-}
-
-vault.armor.quest {
-    import cloudflare
-    redir /admin* /
-    reverse_proxy 192.168.0.143:8087
-}
-
-vencloud.armor.quest {
-    import cloudflare
-    reverse_proxy 192.168.0.143:7951
-}
-```
-
-We'll need to modify it to accept `*.armor.quest` and then reverse proxy on every service:
-
-```
-(cloudflare) {
-    encode gzip
-    tls {
-        dns cloudflare {env.CLOUDFLARE_API_TOKEN}
-    }
-}
-
-*.armor.quest {
-   import cloudflare
-
-   @service1 host nextcloud.armor.quest
-   reverse_proxy @service1 192.168.0.143:9351
-
-   @service2 host vencloud.armor.quest
-   reverse_proxy @service2 192.168.0.143:7951
-
-   @service3 host vault.armor.quest
-   redir /admin* /
-   reverse_proxy @service3 192.168.0.143:8087
-}
-```
+And with this the cloudflare is communicating with the caddy server!
 
 And with that you should be able to access your website without the ports actually being open:
 
