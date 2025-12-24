@@ -6,10 +6,10 @@ The custom container is hosted as package on GitHub and it's supposed to build e
 
 ## How is it meant to work?
 
-Essentially you add this as a git stack in portainer and set some environment variables and hopefully it should work with a wilcard domain. You will need to do some changes on your cloudflare dashboard though.
+Essentially you add this as a git stack in portainer and set some environment variables and hopefully it should work with a wildcard domain. You will need to do some changes on your cloudflare dashboard though.
 
 > [!IMPORTANT]
-> If you're using a free Cloudflare account (as I am) you can only setup subdomain wilcards, not sub-subdomain wilcards.
+> If you're using a free Cloudflare account (as I am) you can only setup subdomain wildcards, not sub-subdomain wildcards.
 > That means that `*.site.com` will work but `*.bar.site.com` won't. In case you really want something like sub-subdomains, you can use the `*.site.com` wildcard and then use the subdomain of `foo-bar.site.com`.
 
 ## Setting up cloudflare tunnels
