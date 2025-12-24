@@ -57,7 +57,7 @@ Now that you try to open your page... it doesn't work.
 
 And the corresponding `cloudflared` logs are:
 
-```
+```bash
 02T12:03:16Z ERR  error="Unable to reach the origin service. The service may be down or it may not be responding to traffic from cloudflared: remote error: tls: internal error" cfRay=82f36cf98a75b33f-PRG event=1 ingressRule=0 originService=https://caddy:443
 2023-12-02T12:03:16Z ERR Request failed error="Unable to reach the origin service. The service may be down or it may not be responding to traffic from cloudflared: remote error: tls: internal error" connIndex=1 dest=https://vencloud.armor.quest/metrics event=0 ip=198.41.192.77 type=http
 ```
@@ -77,7 +77,7 @@ If this is our original Caddyfile:
 service1.domain.xyz {
     import cloudflare
     root * /var/www/adblock/
-	file_server browse
+    file_server browse
 }
 
 service2.domain.xyz {
@@ -104,7 +104,7 @@ We'll need to modify it to accept `*.domain.xyz` and then reverse proxy on every
 
 (service1) {
     root * /var/www/adblock/
-	file_server browse
+    file_server browse
 }
 
 (service2) {
@@ -117,25 +117,24 @@ We'll need to modify it to accept `*.domain.xyz` and then reverse proxy on every
 }
 
 *.domain.xyz {
-	import cloudflare
+    import cloudflare
 
-	@service1 host service1.domain.xyz
-	handle @service1 {
-		import service1
-	}
+    @service1 host service1.domain.xyz
+    handle @service1 {
+        import service1
+    }
 
-	@service2 host service2.domain.xyz
-	handle @service2 {
-		import service2
-	}
+    @service2 host service2.domain.xyz
+    handle @service2 {
+        import service2
+    }
 
     @service3 host service3.domain.xyz
-	handle @service3 {
-		import service3
-	}
+    handle @service3 {
+        import service3
+    }
 }
 ```
-
 
 And with this Cloudflare should be communicating with the caddy server!
 
