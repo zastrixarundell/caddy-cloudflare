@@ -51,6 +51,92 @@ Now copy the ID of the tunnel, in my case: `bfd810cf-b92e-45b7-a7c6-6c022956eea6
 > [!IMPORTANT]
 > Make sure proxy is enabled.
 
+Now that you try to open your page... it doesn't work.
+
+![bad gateway error](screenshots/bad-gateway.png)
+
+And the corresponding `cloudflared` logs are:
+
+```
+02T12:03:16Z ERR  error="Unable to reach the origin service. The service may be down or it may not be responding to traffic from cloudflared: remote error: tls: internal error" cfRay=82f36cf98a75b33f-PRG event=1 ingressRule=0 originService=https://caddy:443
+2023-12-02T12:03:16Z ERR Request failed error="Unable to reach the origin service. The service may be down or it may not be responding to traffic from cloudflared: remote error: tls: internal error" connIndex=1 dest=https://vencloud.armor.quest/metrics event=0 ip=198.41.192.77 type=http
+```
+
+Well, it's because caddy isn't accepting the request. It gets it, it just declines it. We have to change up our Caddyfile a bit:
+
+If this is our original Caddyfile:
+
+```Caddy
+(cloudflare) {
+    encode gzip
+    tls {
+        dns cloudflare {env.CLOUDFLARE_API_TOKEN}
+    }
+}
+
+service1.domain.xyz {
+    import cloudflare
+    root * /var/www/adblock/
+	file_server browse
+}
+
+service2.domain.xyz {
+    import cloudflare
+    redir /admin* /
+    reverse_proxy 192.168.0.143:8087
+}
+
+service3.domain.xyz {
+    import cloudflare
+    reverse_proxy 192.168.0.143:7951
+}
+```
+
+We'll need to modify it to accept `*.domain.xyz` and then reverse proxy on every service (this has more boilerplate code but it's similar to standard a Caddyfile configs):
+
+```Caddy
+(cloudflare) {
+    encode gzip
+    tls {
+        dns cloudflare {env.CLOUDFLARE_API_TOKEN}
+    }
+}
+
+(service1) {
+    root * /var/www/adblock/
+	file_server browse
+}
+
+(service2) {
+    redir /admin* /
+    reverse_proxy 192.168.0.143:8087
+}
+
+(service3) {
+    reverse_proxy 192.168.0.143:7951
+}
+
+*.domain.xyz {
+	import cloudflare
+
+	@service1 host service1.domain.xyz
+	handle @service1 {
+		import service1
+	}
+
+	@service2 host service2.domain.xyz
+	handle @service2 {
+		import service2
+	}
+
+    @service3 host service3.domain.xyz
+	handle @service3 {
+		import service3
+	}
+}
+```
+
+
 And with this Cloudflare should be communicating with the caddy server!
 
 Now you should be able to access your websites without the ports actually being open.
